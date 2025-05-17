@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
+import Home from './pages/Home'
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-uvm-primary"></div>
       </div>}>
         <Routes>
-          <Route path="/" element={<h1>Home Page</h1>} />
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<h1>Login Page</h1>} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
