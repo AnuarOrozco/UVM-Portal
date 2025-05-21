@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
-import Home from './pages/Login'
+import Home from './pages/Home'
 import Login from './pages/Login'
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
       </div>}>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/login" element={<h1>Login Page</h1>} />
+          <Route path="/home" element={<Home />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </Suspense>
