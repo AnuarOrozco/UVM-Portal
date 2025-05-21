@@ -1,75 +1,124 @@
 import React, { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiHome, FiBook, FiCalendar, FiMessageSquare, FiAward, FiUser, FiLogOut } from "react-icons/fi";
+import uvmLogo from "../../assets/images/universidad-del-valle-de-mexico-uvm-logo-vector.png";
 
-const navOptions = [
-  "Inicio",
-  "Actividad",
-  "Cursos",
-  "Calendario",
-  "Mensajes",
-  "Calificaciones",
-  "Perfil",
-  "Cerrar Sesión"
+const navItems = [
+  { name: "Inicio", icon: <FiHome />, path: "/" },
+  { name: "Cursos", icon: <FiBook />, path: "/cursos" },
+  { name: "Calendario", icon: <FiCalendar />, path: "/calendario" },
+  { name: "Mensajes", icon: <FiMessageSquare />, path: "/mensajes" },
+  { name: "Calificaciones", icon: <FiAward />, path: "/calificaciones" },
+  { name: "Perfil", icon: <FiUser />, path: "/perfil" },
+  { name: "Cerrar Sesión", icon: <FiLogOut />, path: "/logout", isLogout: true }
 ];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState("Inicio");
 
   return (
-    <header className="w-full flex justify-center items-center fixed top-6 left-0 z-20 pointer-events-none">
-      {/* Desktop nav */}
-      <nav className="pointer-events-auto bg-white/90 backdrop-blur-md shadow-lg rounded-full items-center gap-2 sm:gap-4 px-3 sm:px-8 py-1.5 sm:py-2 max-w-full overflow-x-auto hidden sm:flex">
-        {navOptions.map((option) => (
-          <a
-            key={option}
-            href="#"
-            className={`text-gray-700 font-medium px-3 sm:px-4 py-1 rounded-full hover:bg-gray-100 transition-colors text-xs sm:text-sm whitespace-nowrap ${
-              option === "Cerrar Sesión" ? "text-red-500 hover:bg-red-50" : ""
-            }`}
-          >
-            {option}
-          </a>
-        ))}
-      </nav>
-      {/* Mobile burger */}
-      <div className="pointer-events-auto sm:hidden w-full flex justify-end pr-4">
-        <button
-          className="bg-white/90 backdrop-blur-md shadow-lg rounded-full p-2"
-          onClick={() => setOpen(true)}
-          aria-label="Abrir menú"
-        >
-          <FiMenu className="h-6 w-6 text-gray-700" />
-        </button>
-      </div>
-      {/* Mobile menu overlay */}
-      {open && (
-        <div className="fixed inset-0 z-30 flex items-start justify-end bg-black/30 pointer-events-auto sm:hidden">
-          <div className="bg-white w-64 h-full shadow-xl flex flex-col pt-8">
-            <button
-              className="self-end mr-4 mb-6"
-              onClick={() => setOpen(false)}
-              aria-label="Cerrar menú"
-            >
-              <FiX className="h-7 w-7 text-gray-700" />
-            </button>
-            <nav className="flex flex-col gap-2 px-6">
-              {navOptions.map((option) => (
-                <a
-                  key={option}
-                  href="#"
-                  className={`text-gray-700 font-medium px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors text-base ${
-                    option === "Cerrar Sesión" ? "text-red-500 hover:bg-red-50" : ""
-                  }`}
-                  onClick={() => setOpen(false)}
-                >
-                  {option}
-                </a>
-              ))}
-            </nav>
+    <header className="w-full bg-white shadow-sm fixed top-0 left-0 z-50">
+      <div className="container mx-auto px-4">
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center justify-between h-20">
+          {/* Logo UVM */}
+          <div className="flex items-center">
+            <img 
+              src={uvmLogo} 
+              alt="Logo UVM" 
+              className="h-12 mr-6" 
+            />
           </div>
-          <div className="flex-1" onClick={() => setOpen(false)} />
+
+          {/* Navigation Links */}
+          <div className="flex items-center space-x-1">
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.path}
+                className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
+                  activeItem === item.name 
+                    ? 'bg-uvm-primary/10 text-uvm-primary font-semibold'
+                    : 'text-gray-700 hover:bg-gray-100'
+                } ${
+                  item.isLogout ? 'text-red-500 hover:bg-red-50' : ''
+                }`}
+                onClick={() => setActiveItem(item.name)}
+              >
+                <span className="mr-2">{item.icon}</span>
+                {item.name}
+              </a>
+            ))}
+          </div>
+        </nav>
+
+        {/* Mobile Navigation */}
+        <div className="md:hidden flex items-center justify-between h-16">
+          {/* Logo UVM */}
+          <img 
+            src={uvmLogo} 
+            alt="Logo UVM" 
+            className="h-10" 
+          />
+
+          {/* Mobile Menu Button */}
+          <button
+            className="p-2 rounded-lg hover:bg-gray-100"
+            onClick={() => setOpen(true)}
+            aria-label="Abrir menú"
+          >
+            <FiMenu className="h-6 w-6 text-gray-700" />
+          </button>
         </div>
-      )}
+
+        {/* Mobile Menu Overlay */}
+        {open && (
+          <div className="fixed inset-0 z-50 bg-black/30 md:hidden">
+            <div className="bg-white w-4/5 h-full shadow-xl flex flex-col">
+              {/* Header with Close Button */}
+              <div className="flex items-center justify-between p-4 border-b">
+                <img 
+                  src={uvmLogo} 
+                  alt="Logo UVM" 
+                  className="h-10" 
+                />
+                <button
+                  onClick={() => setOpen(false)}
+                  aria-label="Cerrar menú"
+                  className="p-2 rounded-lg hover:bg-gray-100"
+                >
+                  <FiX className="h-6 w-6 text-gray-700" />
+                </button>
+              </div>
+
+              {/* Mobile Menu Items */}
+              <nav className="flex-1 overflow-y-auto py-4">
+                {navItems.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.path}
+                    className={`flex items-center px-6 py-3 text-lg ${
+                      activeItem === item.name 
+                        ? 'bg-uvm-primary/10 text-uvm-primary font-semibold'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    } ${
+                      item.isLogout ? 'text-red-500 hover:bg-red-50' : ''
+                    }`}
+                    onClick={() => {
+                      setActiveItem(item.name);
+                      setOpen(false);
+                    }}
+                  >
+                    <span className="mr-3">{item.icon}</span>
+                    {item.name}
+                  </a>
+                ))}
+              </nav>
+            </div>
+            <div className="w-1/5" onClick={() => setOpen(false)} />
+          </div>
+        )}
+      </div>
     </header>
   );
 }

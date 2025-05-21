@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Footer from "../components/common/Footer";
 import uvmLogo from "../assets/images/universidad-del-valle-de-mexico-uvm-logo-vector.png";
-
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
